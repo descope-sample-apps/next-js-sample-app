@@ -30,13 +30,15 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 a. When user is not logged-in:
  - "Login" button (navigate to "Login page")
  - "Not Validated" user data that returned from server side props (see more details below)
-![home-page-not-login](https://user-images.githubusercontent.com/10514677/206518925-16465344-f77d-4166-a0a5-22f9eea40438.png)
+![home-page-not-logged-in](https://user-images.githubusercontent.com/10514677/206518925-16465344-f77d-4166-a0a5-22f9eea40438.png)
 
 b. When user is logged-in
  - The logged in user name (or id)
  - "Logout" button
- - "Submit" form, to demonstrate api (form) usage (see more details bellow)
+ - "Submit" form, to demonstrate api (form) usage (see more details below)
  - "Validated" user data that returned from server side props
+
+![home-page-logged-in](https://user-images.githubusercontent.com/10514677/206575364-c574147b-18b0-4d0c-b6a6-af56c4ab7673.png)
 
  ### Login Page
  - Shows login flow (Descope component)

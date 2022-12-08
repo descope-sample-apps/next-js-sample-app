@@ -11,7 +11,7 @@ export default function Home({ data }: { data: string }) {
   const onLogout = useCallback(() => {
     // Delete Descope refresh token cookie.
     // This is only required if Descope tokens are NOT managed in cookies.
-    document.cookie = 'DSR=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+    document.cookie = "DSR=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
 
     logout();
   }, [logout]);
@@ -25,13 +25,13 @@ export default function Home({ data }: { data: string }) {
   }, [authenticated]);
 
   const handleSubmit = async (event: SyntheticEvent) => {
-    event.preventDefault()
+    event.preventDefault();
 
-    const response = await fetch('/api/form', { method: 'POST'})
+    const response = await fetch("/api/form", { method: "POST" });
 
-    const result = await response.json()
-    alert(`Result: ${result.data}`)
-  }
+    const result = await response.json();
+    alert(`Result: ${result.data}`);
+  };
 
   return (
     <div className={styles.container}>
@@ -52,8 +52,9 @@ export default function Home({ data }: { data: string }) {
         )}
         {authenticated && (
           <>
-            <div>Hello {getUserDisplayName(user)}</div>
+            <div className={styles.description}>Hello {getUserDisplayName(user)}</div>
             <button onClick={onLogout}>Logout</button>
+            <div className={styles.description}>Submit API Form</div>
             <form onSubmit={handleSubmit}>
               <button type="submit">Submit</button>
             </form>
