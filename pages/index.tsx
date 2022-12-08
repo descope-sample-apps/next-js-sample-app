@@ -77,9 +77,6 @@ export default function Home({ data }: { data: string }) {
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  // check if
-  console.log('@@@ getServerSideProps', context.req.headers);
-  
   const validated = await validateRequestSession(context.req);
 
   return {
