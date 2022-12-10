@@ -31,10 +31,13 @@ export default function Login() {
     router.push("/");
   }, [router]);
 
-  const onError = useCallback((e: any) => {
-    console.log("Descope got error", e);
-    router.push("/");
-  }, [router]);
+  const onError = useCallback(
+    (e: any) => {
+      console.log("Descope got error", e);
+      router.push("/");
+    },
+    [router]
+  );
 
   return (
     <div className={styles.container}>

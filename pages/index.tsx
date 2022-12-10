@@ -43,7 +43,10 @@ export default function Home({ data }: { data: string }) {
 
       <main className={styles.main}>
         <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Descope Next.js!</a>
+          Welcome to{" "}
+          <a href="https://github.com/descope-sample-apps/next-js-sample-app">
+            Descope Next.js Sample App
+          </a>
         </h1>
         {!authenticated && (
           <Link href="/login" passHref>
@@ -52,7 +55,9 @@ export default function Home({ data }: { data: string }) {
         )}
         {authenticated && (
           <>
-            <div className={styles.description}>Hello {getUserDisplayName(user)}</div>
+            <div className={styles.description}>
+              Hello {getUserDisplayName(user)}
+            </div>
             <button onClick={onLogout}>Logout</button>
             <div className={styles.description}>Submit API Form</div>
             <form onSubmit={handleSubmit}>
