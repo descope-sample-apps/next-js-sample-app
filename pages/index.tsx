@@ -1,13 +1,16 @@
-import { useAuth } from "@descope/react-sdk";
+import { useDescope, useSession, useUser } from "@descope/react-sdk";
 import { GetServerSideProps } from "next";
 import Head from "next/head";
 import Link from "next/link";
-import { SyntheticEvent, useCallback, useEffect } from "react";
+import { SyntheticEvent, useCallback } from "react";
 import styles from "../styles/Home.module.css";
 import { getUserDisplayName, validateRequestSession } from "../utils/auth";
 
 export default function Home({ data }: { data: string }) {
-  const { authenticated, user, logout, me } = useAuth();
+  const { isAuthenticated } = useSession();
+  const { user } = useUser();
+  const { logout } = useDescope();
+
   const onLogout = useCallback(() => {
     // Delete Descope refresh token cookie.
     // This is only required if Descope tokens are NOT managed in cookies.
@@ -15,14 +18,6 @@ export default function Home({ data }: { data: string }) {
 
     logout();
   }, [logout]);
-
-  useEffect(() => {
-    if (authenticated) {
-      // get current user (me) so they can later be used to display user information
-      // this may be simplified later by the SDK
-      me();
-    }
-  }, [authenticated]);
 
   const handleSubmit = async (event: SyntheticEvent) => {
     event.preventDefault();
@@ -48,12 +43,12 @@ export default function Home({ data }: { data: string }) {
             Descope Next.js Sample App
           </a>
         </h1>
-        {!authenticated && (
+        {!isAuthenticated && (
           <Link href="/login" passHref>
             <button>Login</button>
           </Link>
         )}
-        {authenticated && (
+        {isAuthenticated && (
           <>
             <div className={styles.description}>
               Hello {getUserDisplayName(user)}

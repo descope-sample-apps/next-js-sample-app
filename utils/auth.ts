@@ -14,7 +14,7 @@ export const validateRequestSession = async (req: {
   // TODO - need to think how to set DSR in the client side
   const refreshToken = req.cookies?.['DSR'];
   try {
-    await descopeSdk.validateSession(sessionToken, refreshToken);
+    await descopeSdk.validateAndRefreshSession(sessionToken, refreshToken);
   } catch (error) {
     return false;
   }
