@@ -1,4 +1,4 @@
-import { useAuth } from "@descope/react-sdk";
+import { getRefreshToken } from "@descope/react-sdk";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import { useCallback } from "react";
@@ -19,7 +19,6 @@ const DescopeWC = dynamic(
 
 export default function Login() {
   const router = useRouter();
-  const { getRefreshToken } = useAuth();
   const onSuccess = useCallback(() => {
     const refreshToken = getRefreshToken();
     if (refreshToken) {
