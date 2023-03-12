@@ -66,3 +66,4 @@ This is used in
  NOTE: For a case that the Descope project manages token response on BODY (in contrast to manage on COOKIES), the Login component set the refresh token on the `DSR` cookie (see `getRefreshToken()` usage).
  This is done in order to be able to use it on `getServerSideProps` data fetching.
 Prefer using this function only for testing, and to manage token response in COOKIES. When Descope project manages token response on cookies, Descope set the refresh token, and `getRefreshToken` is not needed
+// TODO - improve session validaiton
