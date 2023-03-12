@@ -20,13 +20,6 @@ const DescopeWC = dynamic(
 export default function Login() {
   const router = useRouter();
   const onSuccess = useCallback(() => {
-    const refreshToken = getRefreshToken();
-    if (refreshToken) {
-      // Set refresh token on cookie so it can be used in getServerSideProps
-      // This is only requires for when Descope tokens do NOT managed already in cookies.
-      // In production, prefer managing Descope tokens in cookies.
-      document.cookie = `DSR=${refreshToken}`;
-    }
     router.push("/");
   }, [router]);
 

@@ -9,6 +9,6 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data>
 ) {
-  const validated = await validateRequestSession(req);
+  const validated = await validateRequestSession(req.cookies?.['DS']);
   res.status(200).json({ data: validated ? 'Request Validated' : 'Request Not Validated'  })
 }

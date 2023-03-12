@@ -4,7 +4,9 @@ import Head from "next/head";
 import Link from "next/link";
 import { SyntheticEvent, useCallback } from "react";
 import styles from "../styles/Home.module.css";
-import { getUserDisplayName, validateRequestSession } from "../utils/auth";
+import { validateRequestSession } from "../utils/auth";
+
+const getUserDisplayName = (user: any) => user?.name || user?.externalIds?.[0] || '';
 
 export default function Home({ data }: { data: string }) {
   const { isAuthenticated } = useSession();
@@ -12,10 +14,6 @@ export default function Home({ data }: { data: string }) {
   const { logout } = useDescope();
 
   const onLogout = useCallback(() => {
-    // Delete Descope refresh token cookie.
-    // This is only required if Descope tokens are NOT managed in cookies.
-    document.cookie = "DSR=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-
     logout();
   }, [logout]);
 
@@ -78,7 +76,7 @@ export default function Home({ data }: { data: string }) {
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const validated = await validateRequestSession(context.req);
+  const validated = await validateRequestSession(context.req.cookies?.['DS']);
 
   return {
     props: {
