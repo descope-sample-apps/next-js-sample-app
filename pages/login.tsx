@@ -1,4 +1,3 @@
-import { getRefreshToken } from "@descope/react-sdk";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import { useCallback } from "react";
