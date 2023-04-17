@@ -63,6 +63,4 @@ This is used in
  - `getServerSideProps` (`pages/index.tsx`), to pass different data fetching.
  - API handler (`pages/api/form.ts`), to validate form request that is called from the `Home` page
 
- NOTE: For a case that the Descope project manages token response on BODY (in contrast to manage on COOKIES), the Login component set the refresh token on the `DSR` cookie (see `getRefreshToken()` usage).
- This is done in order to be able to use it on `getServerSideProps` data fetching.
-Prefer using this function only for testing, and to manage token response in COOKIES. When Descope project manages token response on cookies, Descope set the refresh token, and `getRefreshToken` is not needed
+ NOTE: In order to simplify the example - the session token is set to be stored on cookie by providing `sessionTokenViaCookie` prop to the `AuthProvider` component. Alternatively , you can also import `getSessionToken` function from `@descope/react-sdk` to get the token.
