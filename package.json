@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@descope/node-sdk": "0.0.0-next-e0361769-20230612",
-    "@descope/react-sdk": "0.0.0-next-b2f3de1a-20230612",
+    "@descope/react-sdk": "0.0.0-next-4ee3f596-20230613",
     "@types/node": "18.16.16",
     "@types/react": "18.2.7",
     "@types/react-dom": "18.2.4",
