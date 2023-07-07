@@ -12,7 +12,7 @@
     "@descope/node-sdk": "0.0.0-next-8ed0e087-20230707",
     "@descope/react-sdk": "0.0.0-next-82b9581c-20230704",
     "@types/node": "18.16.18",
-    "@types/react": "18.2.13",
+    "@types/react": "18.2.14",
     "@types/react-dom": "18.2.6",
     "eslint": "8.43.0",
     "eslint-config-next": "13.4.7",
