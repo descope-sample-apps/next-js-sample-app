@@ -11,7 +11,7 @@
   "dependencies": {
     "@descope/node-sdk": "0.0.0-next-ffe40501-20230718",
     "@descope/react-sdk": "0.0.0-next-ff7ef905-20230814",
-    "@types/node": "18.17.4",
+    "@types/node": "18.17.5",
     "@types/react": "18.2.20",
     "@types/react-dom": "18.2.7",
     "eslint": "8.47.0",
