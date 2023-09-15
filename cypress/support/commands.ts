@@ -175,8 +175,6 @@ Cypress.Commands.add('loginViaDescopeAPI', () => {
 
 // Add the deleteAllTestUsers command
 Cypress.Commands.add('deleteAllTestUsers', () => {
-    cy.log("Project ID: ", projectId);
-
     cy.request({
         method: 'DELETE',
         url: `${descopeApiBaseURL}/mgmt/user/test/delete/all`,
