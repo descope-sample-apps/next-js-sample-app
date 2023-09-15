@@ -1,26 +1,21 @@
-name: E2E Tests
+name: Cypress Tests
 on: [push]
 jobs:
   cypress-run:
-    name: Cypress E2E Tests
+    name: E2E Tests
     runs-on: ubuntu-latest
+    env: 
+        NEXT_PUBLIC_DESCOPE_PROJECT_ID: ${{ vars.NEXT_PUBLIC_DESCOPE_PROJECT_ID }}
+        DESCOPE_MANAGEMENT_KEY: ${{ secrets.DESCOPE_MANAGEMENT_KEY }}
+
     steps:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Install dependencies
-        run: yarn install --frozen-lockfile
-
-      - name: Build
-        run:  yarn build
+      - name: Install dependencies and start client
+        run: npm install && npm run dev
 
       - name: Cypress run
         uses: cypress-io/github-action@v5
-        env:
-          NEXT_PUBLIC_DESCOPE_PROJECT_ID: ${{ vars.NEXT_PUBLIC_DESCOPE_PROJECT_ID }}
-          DESCOPE_MANAGEMENT_KEY: ${{ secrets.DESCOPE_MANAGEMENT_KEY }}
         with:
-          start: yarn start
-          wait-on: "http://localhost:3000"
-          wait-on-timeout: 120
-          browser: chrome
+          wait-on: 'http://localhost:3000'
