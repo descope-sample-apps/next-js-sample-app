@@ -4,7 +4,7 @@ describe('Descope', function () {
     cy.loginViaDescopeAPI()
   })
 
-  it('shows welcome page', function () {
+  it('shows test user welcome message', function () {
     cy.visit('/');
     cy.contains('Hello Test User').should('be.visible')
     })
