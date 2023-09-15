@@ -17,8 +17,8 @@ jobs:
       - name: Cypress run
         uses: cypress-io/github-action@v5
         env:
-          REACT_APP_DESCOPE_PROJECT_ID: ${{ vars.NEXT_PUBLIC_DESCOPE_PROJECT_ID }}
-          REACT_APP_DESCOPE_MANAGEMENT_KEY: ${{ secrets.DESCOPE_MANAGEMENT_KEY }}
+          NEXT_PUBLIC_DESCOPE_PROJECT_ID: ${{ vars.NEXT_PUBLIC_DESCOPE_PROJECT_ID }}
+          NEXT_PUBLIC_DESCOPE_PROJECT_ID: ${{ secrets.DESCOPE_MANAGEMENT_KEY }}
         with:
           start: yarn start
           wait-on: "http://localhost:3000"
