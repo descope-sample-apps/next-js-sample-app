@@ -116,7 +116,9 @@ Cypress.Commands.add('loginViaDescopeUI', () => {
                     cy.get('descope-wc')
                         .find('button').contains('Submit').click()
 
-										// Customize these steps based on your authentication flow
+					// Customize these steps based on your authentication flow
+                    cy.get('descope-wc')
+                        .find('button').contains('Submit').click()
                 })
         })
 })
