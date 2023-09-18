@@ -8,7 +8,7 @@ describe('Descope', function () {
     cy.contains('Hello Test User').should('be.visible')
   })
 
-  it('api request validated', function () {
+  it('validates api request', function () {
     cy.get('[data-cy=api-form-button]').click()
     cy.contains('Result: Request Validated').should('be.visible');
   })
