@@ -2,7 +2,7 @@ import { useDescope, useSession, useUser } from "@descope/react-sdk";
 import { GetServerSideProps } from "next";
 import Head from "next/head";
 import Link from "next/link";
-import { SyntheticEvent, useCallback } from "react";
+import { SyntheticEvent, useCallback, useState } from "react";
 import styles from "../styles/Home.module.css";
 import { validateRequestSession } from "../utils/auth";
 
@@ -17,13 +17,17 @@ export default function Home({ data }: { data: string }) {
     logout();
   }, [logout]);
 
+  const [apiFormResult, setApiFormResult] = useState<string>('');
+
   const handleSubmit = async (event: SyntheticEvent) => {
     event.preventDefault();
 
     const response = await fetch("/api/form", { method: "POST" });
 
     const result = await response.json();
-    alert(`Result: ${result.data}`);
+    const resultMessage = `Result: ${result.data}`;
+    setApiFormResult(resultMessage);
+    alert(resultMessage);
   };
 
   return (
@@ -54,8 +58,9 @@ export default function Home({ data }: { data: string }) {
             <button onClick={onLogout}>Logout</button>
             <div className={styles.description}>Submit API Form</div>
             <form onSubmit={handleSubmit}>
-              <button type="submit">Submit</button>
+              <button data-cy='api-form-button' type="submit">Submit</button>
             </form>
+            <div>{apiFormResult}</div>
           </>
         )}
 

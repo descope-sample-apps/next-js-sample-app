@@ -64,3 +64,28 @@ This is used in
  - API handler (`pages/api/form.ts`), to validate form request that is called from the `Home` page
 
  NOTE: In order to simplify the example - the session token is set to be stored on cookie by providing `sessionTokenViaCookie` prop to the `AuthProvider` component. Alternatively , you can also import `getSessionToken` function from `@descope/react-sdk` to get the token.
+
+ 
+## 🧪 Testing
+
+1. Set up Descope environment variables in `.env` file
+
+```
+NEXT_PUBCLIC_DESCOPE_PROJECT_ID="YOUR_DESCOPE_PROJECT_ID"
+DESCOPE_MANAGEMENT_KEY="YOUR MANAGEMENT KEY" // Required
+```
+
+_You can get your project-id [here](https://app.descope.com/settings/project)_.
+_You can get this flow-id from the Flows page [here](https://app.descope.com/flows)_.
+
+2. Open the Cypress App
+Make sure you have the application running at `https://localhost:3000`. Then, in the root directory of the descope-explorer project, run the following to open the Cypress app:
+
+```
+npx cypress open
+```
+
+You'll need to select "E2E Testing" and your preferred browser for testing. For more info, check out the [Cypress Docs](https://docs.cypress.io/guides/getting-started/opening-the-app).
+
+3. Run E2E Tests
+Now, simply click the "spec" you'd like to run and the test will start automatically.
