@@ -7,7 +7,7 @@ const sdk = createSdk({
 export async function GET() {
   const currSession = session();
   if (!currSession) {
-    return new Response("Unauthorized", { status: 401 });
+    return new Response("Not Validated", { status: 401 });
   }
   return new Response(JSON.stringify({ data: "Validated Session" }), {
     status: 200,

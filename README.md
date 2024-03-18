@@ -49,35 +49,12 @@ b. When user is logged-in
 - Shows login flow (Descope component)
   ![login-page](https://user-images.githubusercontent.com/10514677/206518915-609865ce-196b-41be-9670-47278a72bd10.png)
 
-## What Does Descope Example Shows?
-
-#### Caveat
-
-This is an early stage example. This example may change in the near future. We will appreciate any feedback!
-
-- `AuthProvider` usage
-  The `App` component (`pages/_app.tsx`) is wrapped with `<AuthProvider ... > ... </AuthProvider>` component.
-
-- `useAuth` usage
-  The `Home` component (`pages/index.tsx`) uses multiple functions/constants return from this hook, such as `authenticated`, `user`, `logout` and more.
-
-- `Descope` usage
-  The `Home` component (`pages/index.tsx`) loads Descope in a dynamic manner (CSR only), and renders it.
-
-- Validating session
-  Validating session (`utils/auth.ts`) uses Descope `NodeJS` sdk instance's `validateSession` method.
-  This is used in
-- `getServerSideProps` (`pages/index.tsx`), to pass different data fetching.
-- API handler (`pages/api/form.ts`), to validate form request that is called from the `Home` page
-
-NOTE: In order to simplify the example - the session token is set to be stored on cookie by providing `sessionTokenViaCookie` prop to the `AuthProvider` component. Alternatively , you can also import `getSessionToken` function from `@descope/react-sdk` to get the token.
-
 ## 🧪 Testing
 
-1. Set up Descope environment variables in `.env` file
+1. Set up Descope environment variables in `.env.local` file
 
 ```
-NEXT_PUBCLIC_DESCOPE_PROJECT_ID="YOUR_DESCOPE_PROJECT_ID"
+NEXT_PUBLIC_DESCOPE_PROJECT_ID="YOUR_DESCOPE_PROJECT_ID"
 DESCOPE_MANAGEMENT_KEY="YOUR MANAGEMENT KEY" // Required
 ```
 
