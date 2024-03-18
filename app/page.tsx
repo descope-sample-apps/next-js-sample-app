@@ -1,12 +1,13 @@
-import { useDescope, useSession, useUser } from "@descope/react-sdk";
-import { GetServerSideProps } from "next";
+"use client";
+
+import { useDescope, useSession, useUser } from "@descope/nextjs-sdk/client";
 import Head from "next/head";
 import Link from "next/link";
 import { SyntheticEvent, useCallback, useState } from "react";
 import styles from "../styles/Home.module.css";
-import { validateRequestSession } from "../utils/auth";
 
-const getUserDisplayName = (user: any) => user?.name || user?.externalIds?.[0] || '';
+const getUserDisplayName = (user: any) =>
+  user?.name || user?.externalIds?.[0] || "";
 
 export default function Home({ data }: { data: string }) {
   const { isAuthenticated } = useSession();
@@ -17,14 +18,15 @@ export default function Home({ data }: { data: string }) {
     logout();
   }, [logout]);
 
-  const [apiFormResult, setApiFormResult] = useState<string>('');
+  const [apiFormResult, setApiFormResult] = useState<string>("");
 
   const handleSubmit = async (event: SyntheticEvent) => {
     event.preventDefault();
 
-    const response = await fetch("/api/form", { method: "POST" });
+    const response = await fetch("/api/form", { method: "GET" });
 
     const result = await response.json();
+    console.log(result);
     const resultMessage = `Result: ${result.data}`;
     setApiFormResult(resultMessage);
     alert(resultMessage);
@@ -40,7 +42,7 @@ export default function Home({ data }: { data: string }) {
 
       <main className={styles.main}>
         <h1 className={styles.title}>
-          Welcome to{" "}
+          Welcome to the{" "}
           <a href="https://github.com/descope-sample-apps/next-js-sample-app">
             Descope Next.js Sample App
           </a>
@@ -58,7 +60,9 @@ export default function Home({ data }: { data: string }) {
             <button onClick={onLogout}>Logout</button>
             <div className={styles.description}>Submit API Form</div>
             <form onSubmit={handleSubmit}>
-              <button data-cy='api-form-button' type="submit">Submit</button>
+              <button data-cy="api-form-button" type="submit">
+                Submit
+              </button>
             </form>
             <div>{apiFormResult}</div>
           </>
@@ -66,26 +70,9 @@ export default function Home({ data }: { data: string }) {
 
         <p className={styles.description}>
           Get started by editing{" "}
-          <code className={styles.code}>pages/index.tsx</code>
+          <code className={styles.code}>app/page.tsx</code>
         </p>
-
-        <div className={styles.grid}>
-          <div>Server Side Props Data:</div>
-          <div className={styles.card}>
-            <code className={styles.code}>{data}</code>
-          </div>
-        </div>
       </main>
     </div>
   );
 }
-
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const validated = await validateRequestSession(context.req);
-
-  return {
-    props: {
-      data: validated ? "Validated" : "Not Validated",
-    },
-  };
-};

@@ -1,0 +1,15 @@
+import { createSdk, session } from "@descope/nextjs-sdk/server";
+
+const sdk = createSdk({
+  projectId: process.env.NEXT_PUBLIC_DESCOPE_PROJECT_ID,
+});
+
+export async function GET() {
+  const currSession = session();
+  if (!currSession) {
+    return new Response("Unauthorized", { status: 401 });
+  }
+  return new Response(JSON.stringify({ data: "Validated Session" }), {
+    status: 200,
+  });
+}
