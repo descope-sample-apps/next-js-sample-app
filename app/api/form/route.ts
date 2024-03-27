@@ -9,7 +9,7 @@ export async function GET() {
   if (!currSession) {
     return new Response("Not Validated", { status: 401 });
   }
-  return new Response(JSON.stringify({ data: "Validated Session" }), {
+  return new Response(JSON.stringify({ data: "Result: Request Validated" }), {
     status: 200,
   });
 }
