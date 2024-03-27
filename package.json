@@ -9,17 +9,16 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@descope/node-sdk": "0.0.0-next-ffe40501-20230718",
-    "@descope/react-sdk": "0.0.0-next-ff7ef905-20230814",
+    "@descope/nextjs-sdk": "^0.0.5-alpha.1",
     "@types/node": "18.17.11",
     "@types/react": "18.2.21",
     "@types/react-dom": "18.2.7",
     "dotenv": "^16.3.1",
     "eslint": "8.48.0",
     "eslint-config-next": "13.4.19",
-    "next": "13.4.19",
-    "react": "18.2.0",
-    "react-dom": "18.2.0",
+    "next": "^14.1.3",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "typescript": "5.1.6"
   },
   "devDependencies": {
