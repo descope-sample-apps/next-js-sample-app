@@ -9,7 +9,7 @@ import styles from "../styles/Home.module.css";
 const getUserDisplayName = (user: any) =>
   user?.name || user?.externalIds?.[0] || "";
 
-export default function Home({ data }: { data: string }) {
+export default function Home() {
   const { isAuthenticated } = useSession();
   const { user } = useUser();
   const { logout } = useDescope();
