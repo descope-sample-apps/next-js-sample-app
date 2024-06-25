@@ -2,10 +2,12 @@
 // ***********************************************
 
 const projectId = Cypress.env('descope_project_id')
-const managementKey = Cypress.env('descope_management_key')
-const descopeAPIDomain = "api.descope.com"
-
-
+const managementKey = Cypress.env('descope_management_key')   
+let descopeAPIDomain = "api.descope.com"
+if (projectId.length >= 32) {
+    const localURL = projectId.substring(1, 5)
+    descopeAPIDomain = [descopeAPIDomain.slice(0, 4), localURL, ".", descopeAPIDomain.slice(4)].join('')
+}
 
 // Define the authorization header
 const authHeader = {
