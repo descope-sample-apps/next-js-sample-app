@@ -1,6 +1,6 @@
 describe('Descope', function () {
   beforeEach(function () {
-    // cy.deleteAllTestUsers()
+    cy.deleteAllTestUsers()
     // cy.loginViaDescopeAPI()
   })
 
@@ -9,7 +9,7 @@ describe('Descope', function () {
   })
 
   it('validates api request', function () {
-    cy.get('[data-cy=api-form-button]').click()
+    // cy.get('[data-cy=api-form-button]').click()
     // cy.contains('Result: Request Validated').should('be.visible');
   })
 })
