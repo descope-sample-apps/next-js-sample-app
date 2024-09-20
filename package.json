@@ -9,7 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@descope/nextjs-sdk": "^0.0.5-alpha.1",
+    "@descope/nextjs-sdk": "^0.2.10",
     "@types/node": "18.17.11",
     "@types/react": "18.2.21",
     "@types/react-dom": "18.2.7",
