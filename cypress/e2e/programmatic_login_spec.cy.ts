@@ -1,7 +1,7 @@
 describe('Descope', function () {
   beforeEach(function () {
     cy.deleteAllTestUsers()
-    cy.loginViaDescopeAPI()
+    // cy.loginViaDescopeAPI()
   })
 
   it('shows test user welcome message', function () {
