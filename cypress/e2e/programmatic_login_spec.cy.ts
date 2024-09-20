@@ -1,6 +1,6 @@
 describe('Descope', function () {
   beforeEach(function () {
-    cy.deleteAllTestUsers()
+    // cy.deleteAllTestUsers()
     // cy.loginViaDescopeAPI()
   })
 
