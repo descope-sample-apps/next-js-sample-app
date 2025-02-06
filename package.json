@@ -22,6 +22,6 @@
     "typescript": "5.1.6"
   },
   "devDependencies": {
-    "cypress": "^13.2.0"
+    "cypress": "^14.0.0"
   }
 }
