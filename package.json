@@ -12,6 +12,7 @@
     "@descope/nextjs-sdk": "^0.12.11",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "dotenv": "^16.4.5",
     "framer-motion": "^12.6.3",
     "next": "15.2.4",
     "react": "^19.0.0",
@@ -21,7 +22,8 @@
   "devDependencies": {
     "@eslint/eslintrc": "^3",
     "@tailwindcss/postcss": "^4",
-    "@types/node": "^20",
+    "@types/cypress": "^1.1.6",
+    "@types/node": "^20.11.24",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",

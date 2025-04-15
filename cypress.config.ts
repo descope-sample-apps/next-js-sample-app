@@ -1,15 +1,15 @@
 import { defineConfig } from "cypress";
-
 import * as dotenv from 'dotenv';
+
 dotenv.config();
 
 export default defineConfig({
-  
   e2e: {
     includeShadowDom: true, // Important for interacting with Descope components
     baseUrl: 'http://localhost:3000',
     setupNodeEvents(on, config) {
       // implement node event listeners here
+      return config;
     },
   },
   env: {
