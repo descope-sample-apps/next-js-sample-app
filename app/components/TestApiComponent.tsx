@@ -9,7 +9,7 @@ interface TestApiComponentProps {
 }
 
 export default function TestApiComponent({ variant = 'dashboard' }: TestApiComponentProps) {
-  const { isAuthenticated, isSessionLoading } = useSession();
+  const { isSessionLoading } = useSession();
   const [apiStatus, setApiStatus] = useState<string | null>(null);
 
   if (isSessionLoading) return null;
