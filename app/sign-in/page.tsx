@@ -77,6 +77,23 @@ const GradientText = ({ children, className = "" }: { children: React.ReactNode;
   );
 };
 
+interface DescopeSuccessEvent {
+  detail: {
+    user: {
+      userId: string;
+      name?: string;
+      email?: string;
+    };
+  };
+}
+
+interface DescopeErrorEvent {
+  detail: {
+    error: string;
+    message: string;
+  };
+}
+
 export default function SignInPage() {
   const router = useRouter();
   const [mounted, setMounted] = useState(false);
@@ -161,12 +178,12 @@ export default function SignInPage() {
           <Descope
             flowId={process.env.NEXT_PUBLIC_DESCOPE_FLOW_ID || 'sign-up-or-in'}
             theme="dark"
-            onSuccess={(e: any) => {
+            onSuccess={(e: DescopeSuccessEvent) => {
               console.log('Success:', e.detail.user);
               router.push('/dashboard');
             }}
-            onError={(e: any) => {
-              console.error('Error:', e);
+            onError={(e: DescopeErrorEvent) => {
+              console.error('Error:', e.detail.message);
             }}
           />
         </motion.div>
