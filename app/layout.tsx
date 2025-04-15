@@ -1,13 +1,17 @@
-"use client";
+import type { Metadata } from "next";
+import { Inter } from "next/font/google";
+import "./globals.css";
+import { AuthProvider } from '@descope/nextjs-sdk';
 
-import React from "react";
-import { AuthProvider } from "@descope/nextjs-sdk";
-import { Inter as FontSans } from "next/font/google";
+const inter = Inter({ subsets: ["latin"] });
 
-const fontSans = FontSans({
-  subsets: ["latin"],
-  variable: "--font-sans",
-});
+export const metadata: Metadata = {
+  title: "Next.js Sample App",
+  description: "Authenticate with Descope",
+  icons: {
+    icon: "/public/favicon.ico", 
+  },
+};
 
 export default function RootLayout({
   children,
@@ -16,12 +20,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <AuthProvider
-        projectId={process.env.NEXT_PUBLIC_DESCOPE_PROJECT_ID || ""}
-        baseUrl={process.env.NEXT_PUBLIC_DESCOPE_BASE_URL || ""}
-      >
-        <body className={fontSans.className}>{children}</body>
-      </AuthProvider>
+      <body className={inter.className}>
+        <AuthProvider projectId={process.env.NEXT_PUBLIC_DESCOPE_PROJECT_ID || ''}>
+          {children}
+        </AuthProvider>
+      </body>
     </html>
   );
 }
