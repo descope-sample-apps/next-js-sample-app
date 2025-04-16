@@ -19,7 +19,7 @@ export default defineConfig({
   env: {
     // descope_project_id: process.env.NEXT_PUBLIC_DESCOPE_PROJECT_ID,
     // descope_management_key: process.env.DESCOPE_MANAGEMENT_KEY
-    descope_project_id: "P2vjiqpAqvQuklO58bTHdB5LtPsw",
-    descope_management_key: "K2vmBaFYc1Qhj8yi2BBogEM96MeHbCBhekPjCaxLWgnY0gnEvJf4cHCL8OGEsbPaUPvsf25"
+    descope_project_id: "",
+    descope_management_key: ""
   },
 });
