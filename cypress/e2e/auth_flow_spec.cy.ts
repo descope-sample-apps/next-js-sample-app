@@ -1,7 +1,12 @@
 describe('Descope', function () {
-  beforeEach(function () {
-    cy.deleteAllTestUsers()
-    cy.loginViaDescopeAPI()
+  // beforeEach(function () {
+  //   cy.deleteAllTestUsers()
+  // })
+
+  before(() => {
+    // Debug log to verify environment variables
+    console.log('Project ID:', Cypress.env('descope_project_id'))
+    console.log('Management Key exists:', !!Cypress.env('descope_management_key'))
   })
 
   it('shows test user welcome message', function () {
