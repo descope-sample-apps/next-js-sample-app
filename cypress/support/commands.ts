@@ -5,7 +5,7 @@ declare namespace Cypress {
     interface Chainable<Subject = any> {
       loginViaDescopeUI(): Chainable<any>;
       loginViaDescopeAPI(): Chainable<any>;
-      deleteAllTestUsers(): Chainable<any>;
+    //   deleteAllTestUsers(): Chainable<any>;
     }
   }
 
@@ -155,10 +155,10 @@ Cypress.Commands.add('loginViaDescopeAPI', () => {
 });
 
 //   Add the deleteAllTestUsers command
-Cypress.Commands.add('deleteAllTestUsers', () => {
-    cy.request({
-      method: 'DELETE',
-      url: `${descopeApiBaseURL}/mgmt/user/test/delete/all`,
-      headers: authHeader,
-    });
-});
+// Cypress.Commands.add('deleteAllTestUsers', () => {
+//     cy.request({
+//       method: 'DELETE',
+//       url: `${descopeApiBaseURL}/mgmt/user/test/delete/all`,
+//       headers: authHeader,
+//     });
+// });
