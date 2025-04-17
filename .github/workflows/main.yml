@@ -6,7 +6,7 @@ jobs:
     runs-on: ubuntu-latest
     env: 
         NEXT_PUBLIC_DESCOPE_PROJECT_ID: ${{ vars.NEXT_PUBLIC_DESCOPE_PROJECT_ID }}
-        DESCOPE_MANAGEMENT_KEY: ${{ vars.DESCOPE_MANAGEMENT_KEY }}
+        DESCOPE_MANAGEMENT_KEY: ${{ secrets.DESCOPE_MANAGEMENT_KEY }}
 
     steps:
       - name: Checkout
