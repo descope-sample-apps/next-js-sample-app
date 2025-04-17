@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@descope/nextjs-sdk": "^0.2.10",
-    "@types/node": "18.17.11",
+    "@types/node": "18.19.84",
     "@types/react": "18.2.21",
     "@types/react-dom": "18.2.7",
     "dotenv": "^16.3.1",
