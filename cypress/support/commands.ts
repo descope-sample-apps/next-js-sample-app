@@ -1,9 +1,20 @@
 /// <reference types="cypress" />
 // ***********************************************
 
+declare namespace Cypress {
+    interface Chainable<Subject = any> {
+      loginViaDescopeUI(): Chainable<any>;
+      loginViaDescopeAPI(): Chainable<any>;
+      deleteAllTestUsers(): Chainable<any>;
+    }
+  }
+
+Cypress.env();
+
 const projectId = Cypress.env('descope_project_id') || '';
 const managementKey = Cypress.env('descope_management_key') || '';
-let descopeAPIDomain = "api.descope.com"
+let descopeAPIDomain = "api.descope.com";
+
 if (projectId.length >= 32) {
     const localURL = projectId.substring(1, 5)
     descopeAPIDomain = [descopeAPIDomain.slice(0, 4), localURL, ".", descopeAPIDomain.slice(4)].join('')
@@ -29,13 +40,6 @@ const testUser = {
     displayName: "Test User",
     test: true,
 }
-declare namespace Cypress {
-  interface Chainable<Subject = any> {
-    loginViaDescopeUI(): Chainable<any>;
-    deleteAllTestUsers(): Chainable<any>;
-    loginViaDescopeAPI(): Chainable<any>;
-  }
-}
 
 // Add the loginViaDescopeUI command
 Cypress.Commands.add('loginViaDescopeUI', () => {
@@ -47,7 +51,7 @@ Cypress.Commands.add('loginViaDescopeUI', () => {
     }).then(({ body }) => {
         if (!body?.user?.loginIds?.[0]) {
             throw new Error('Failed to create test user');
-          }
+        }
       const loginId = body['user']['loginIds'][0];
       cy.request({
         method: 'POST',
@@ -60,7 +64,7 @@ Cypress.Commands.add('loginViaDescopeUI', () => {
       }).then(({ body }) => {
         if (!body?.code || !body?.loginId) {
             throw new Error('Failed to generate OTP');
-          }
+        }
         const otpCode = body['code'];
         const loginID = body['loginId'];
         cy.visit('/sign-in');
@@ -89,15 +93,6 @@ Cypress.Commands.add('loginViaDescopeUI', () => {
       // Confirm API success message is visible
       cy.contains('API Request Successful').should('be.visible');
       });
-    });
-  });
-
-//   Add the deleteAllTestUsers command
-  Cypress.Commands.add('deleteAllTestUsers', () => {
-    cy.request({
-      method: 'DELETE',
-      url: `${descopeApiBaseURL}/mgmt/user/test/delete/all`,
-      headers: authHeader,
     });
   });
 
@@ -157,4 +152,13 @@ Cypress.Commands.add('loginViaDescopeAPI', () => {
       });
     });
   });
+});
+
+//   Add the deleteAllTestUsers command
+Cypress.Commands.add('deleteAllTestUsers', () => {
+    cy.request({
+      method: 'DELETE',
+      url: `${descopeApiBaseURL}/mgmt/user/test/delete/all`,
+      headers: authHeader,
+    });
 });
