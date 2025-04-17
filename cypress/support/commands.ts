@@ -45,6 +45,9 @@ Cypress.Commands.add('loginViaDescopeUI', () => {
       headers: authHeader,
       body: testUser,
     }).then(({ body }) => {
+        if (!body?.user?.loginIds?.[0]) {
+            throw new Error('Failed to create test user');
+          }
       const loginId = body['user']['loginIds'][0];
       cy.request({
         method: 'POST',
@@ -55,6 +58,9 @@ Cypress.Commands.add('loginViaDescopeUI', () => {
           deliveryMethod: 'email',
         },
       }).then(({ body }) => {
+        if (!body?.code || !body?.loginId) {
+            throw new Error('Failed to generate OTP');
+          }
         const otpCode = body['code'];
         const loginID = body['loginId'];
         cy.visit('/sign-in');
