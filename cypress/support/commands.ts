@@ -1,8 +1,8 @@
 /// <reference types="cypress" />
 // ***********************************************
 
-const projectId = Cypress.env('descope_project_id')
-const managementKey = Cypress.env('descope_management_key')   
+const projectId = Cypress.env('descope_project_id') || '';
+const managementKey = Cypress.env('descope_management_key') || '';
 let descopeAPIDomain = "api.descope.com"
 if (projectId.length >= 32) {
     const localURL = projectId.substring(1, 5)
