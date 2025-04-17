@@ -101,11 +101,60 @@ Cypress.Commands.add('loginViaDescopeUI', () => {
     });
   });
 
-// Add the deleteAllTestUsers command
-Cypress.Commands.add('deleteAllTestUsers', () => {
+// Add the loginViaDescopeAPI command
+Cypress.Commands.add('loginViaDescopeAPI', () => {
+  cy.request({
+    method: 'POST',
+    url: `${descopeApiBaseURL}/mgmt/user/create`,
+    headers: authHeader,
+    body: testUser,
+  }).then(({ body }) => {
+    if (!body?.user?.loginIds?.[0]) {
+      throw new Error('Failed to create test user');
+    }
+    const loginId = body['user']['loginIds'][0];
     cy.request({
-        method: 'DELETE',
-        url: `${descopeApiBaseURL}/mgmt/user/test/delete/all`,
+      method: 'POST',
+      url: `${descopeApiBaseURL}/mgmt/tests/generate/otp`,
+      headers: authHeader,
+      body: {
+        loginId: loginId,
+        deliveryMethod: 'email',
+      },
+    }).then(({ body }) => {
+      if (!body?.code || !body?.loginId) {
+        throw new Error('Failed to generate OTP');
+      }
+      const otpCode = body['code'];
+      const loginID = body['loginId'];
+
+      // Verify OTP using API
+      cy.request({
+        method: 'POST',
+        url: `${descopeApiBaseURL}/auth/otp/verify/email`,
         headers: authHeader,
-    })
-})
+        body: {
+          loginId: loginID,
+          code: otpCode
+        }
+      }).then(({ body }) => {
+        const sessionJwt = body['sessionJwt'];
+        const refreshJwt = body['refreshJwt'];
+
+        /** Default name for the session cookie name / local storage key */
+        const SESSION_TOKEN_KEY = 'DS';
+        /** Default name for the refresh local storage key */
+        const REFRESH_TOKEN_KEY = 'DSR';
+
+        // Store the JWT in the browser's local storage.
+        cy.window().then((win) => {
+          win.localStorage.setItem(SESSION_TOKEN_KEY, sessionJwt);
+          win.localStorage.setItem(REFRESH_TOKEN_KEY, refreshJwt);
+        });
+
+        // Now navigate to the root URL of your application.
+        cy.visit('/dashboard');
+      });
+    });
+  });
+});
