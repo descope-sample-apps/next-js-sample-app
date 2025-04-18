@@ -29,25 +29,23 @@ This app contains 2 components:
 
 ### Home Page
 
-a. When user is not logged-in:
+a. When a user is not signed-in:
 
-- "Login" button (navigate to "Login page")
-- "Not Validated" user data that returned from server side props (see more details below)
-  ![home-page-not-logged-in](https://user-images.githubusercontent.com/10514677/206518925-16465344-f77d-4166-a0a5-22f9eea40438.png)
+- "Sign in" button (navigate to "Sign-in page")
+- "API Request Failed" returned if you Test API Connection
+![home-page-not-signed-in-error](public/assets/home-page-not-signed-in-error.png)
 
-b. When user is logged-in
+b. When a user is signed in:
 
-- The logged in user name (or id)
+- Welcome message is displayed with the signed-in user name
+- The "Test API Connection" button when clicked, should display API Request Successful
 - "Logout" button
-- "Submit" form, to demonstrate api (form) usage (see more details below)
-- "Validated" user data that returned from server side props
+![signed-in-api](public/assets/signed-in-api.png)
 
-![home-page-logged-in](https://user-images.githubusercontent.com/10514677/206575364-c574147b-18b0-4d0c-b6a6-af56c4ab7673.png)
+### Sign In Page
 
-### Login Page
-
-- Shows login flow (Descope component)
-  ![login-page](https://user-images.githubusercontent.com/10514677/206518915-609865ce-196b-41be-9670-47278a72bd10.png)
+- Shows Sign In flow (Descope component)
+![sign-in-page](public/assets/sign-in-page.png)
 
 ## 🧪 Testing
 

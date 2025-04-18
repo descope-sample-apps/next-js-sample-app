@@ -1,9 +1,20 @@
 /// <reference types="cypress" />
 // ***********************************************
 
-const projectId = Cypress.env('descope_project_id')
-const managementKey = Cypress.env('descope_management_key')   
-let descopeAPIDomain = "api.descope.com"
+declare namespace Cypress {
+    interface Chainable<Subject = any> {
+      loginViaDescopeUI(): Chainable<any>;
+      loginViaDescopeAPI(): Chainable<any>;
+    //   deleteAllTestUsers(): Chainable<any>;
+    }
+  }
+
+Cypress.env();
+
+const projectId = Cypress.env('descope_project_id') || '';
+const managementKey = Cypress.env('descope_management_key') || '';
+let descopeAPIDomain = "api.descope.com";
+
 if (projectId.length >= 32) {
     const localURL = projectId.substring(1, 5)
     descopeAPIDomain = [descopeAPIDomain.slice(0, 4), localURL, ".", descopeAPIDomain.slice(4)].join('')
@@ -29,119 +40,125 @@ const testUser = {
     displayName: "Test User",
     test: true,
 }
-declare namespace Cypress {
-  interface Chainable<Subject = any> {
-    loginViaDescopeUI(): Chainable<any>;
-    deleteAllTestUsers(): Chainable<any>;
-    loginViaDescopeAPI(): Chainable<any>;
-  }
-}
+
 // Add the loginViaDescopeUI command
 Cypress.Commands.add('loginViaDescopeUI', () => {
     cy.request({
+      method: 'POST',
+      url: `${descopeApiBaseURL}/mgmt/user/create`,
+      headers: authHeader,
+      body: testUser,
+    }).then(({ body }) => {
+        if (!body?.user?.loginIds?.[0]) {
+            throw new Error('Failed to create test user');
+        }
+      const loginId = body['user']['loginIds'][0];
+      cy.request({
         method: 'POST',
-        url: `${descopeApiBaseURL}/mgmt/user/create`,
+        url: `${descopeApiBaseURL}/mgmt/tests/generate/otp`,
         headers: authHeader,
-        body: testUser,
-    })
-        .then(({ body }) => {
-            const loginId = body["user"]["loginIds"][0];
-            cy.request({
-                method: 'POST',
-                url: `${descopeApiBaseURL}/mgmt/tests/generate/otp`,
-                headers: authHeader,
-                body: {
-                    "loginId": loginId,
-                    "deliveryMethod": "email"
-                }
-            })
-                .then(({ body }) => {
-                    const otpCode = body["code"]
-                    const loginID = body["loginId"]
-                    cy.visit('/login')
+        body: {
+          loginId: loginId,
+          deliveryMethod: 'email',
+        },
+      }).then(({ body }) => {
+        if (!body?.code || !body?.loginId) {
+            throw new Error('Failed to generate OTP');
+        }
+        const otpCode = body['code'];
+        const loginID = body['loginId'];
+        cy.visit('/sign-in');
+  
+        cy.get('descope-wc').find('input').type(loginID);
+  
+        cy.get('descope-wc').find('descope-button').contains('Continue').click();
+        cy.get('descope-wc').find('.descope-input-wrapper').find('input').should('exist'); // Assertion added to wait for the OTP code input to appear
+        let otpCodeArray = Array.from(otpCode); // Convert the OTP code string to an array
+        otpCodeArray.forEach((digit, index) => {
+          cy.get(`descope-text-field[data-id="${index}"]`).then(($element) => {
+            const shadowRoot = ($element[0] as HTMLElement).shadowRoot;
+  
+            if (shadowRoot) {
+              const input = shadowRoot.querySelector('input') as HTMLInputElement | null;
+  
+              if (input) {
+                input.value = String(digit);
+                input.dispatchEvent(new InputEvent('input', { bubbles: true }));
+              }
+            }            
+          });
+        });
+        cy.contains('button', 'Test API').click();
 
-                    cy.get('descope-wc')
-                        .find('input')
-                        .type(loginID)
-                    // If you haven't set `includeShadowDom: true` in your config (as recommended above), 
-                    // you'll have to use `.shadow()` in each function call.
-                    // So the previous line would look like this:
-                    // cy.get('descope-wc').shadow().find('input').type(loginID)
+      // Confirm API success message is visible
+      cy.contains('API Request Successful').should('be.visible');
+      });
+    });
+  });
 
-                    cy.get('descope-wc')
-                        .find('button').contains('Continue').click()
-                    cy.get('descope-wc').find('.descope-input-wrapper').find('input').should('exist') // Assertion added to wait for the OTP code input to appear
-                    let otpCodeArray: string[] = Array.from(otpCode); // Convert the OTP code string to an array
-                    for (var i = 0; i < otpCodeArray.length; i++) {
-                        cy.get('descope-wc').find('.descope-input-wrapper').find('input').eq(i + 1).type(otpCodeArray[i], { force: true })
-                    }
-                    cy.get('descope-wc')
-                        .find('button').contains('Submit').click()
-
-					// Customize these steps based on your authentication flow
-                    cy.get('descope-wc')
-                        .find('button').contains('Submit').click()
-                })
-        })
-})
 // Add the loginViaDescopeAPI command
 Cypress.Commands.add('loginViaDescopeAPI', () => {
+  cy.request({
+    method: 'POST',
+    url: `${descopeApiBaseURL}/mgmt/user/create`,
+    headers: authHeader,
+    body: testUser,
+  }).then(({ body }) => {
+    if (!body?.user?.loginIds?.[0]) {
+      throw new Error('Failed to create test user');
+    }
+    const loginId = body['user']['loginIds'][0];
     cy.request({
+      method: 'POST',
+      url: `${descopeApiBaseURL}/mgmt/tests/generate/otp`,
+      headers: authHeader,
+      body: {
+        loginId: loginId,
+        deliveryMethod: 'email',
+      },
+    }).then(({ body }) => {
+      if (!body?.code || !body?.loginId) {
+        throw new Error('Failed to generate OTP');
+      }
+      const otpCode = body['code'];
+      const loginID = body['loginId'];
+
+      // Verify OTP using API
+      cy.request({
         method: 'POST',
-        url: `${descopeApiBaseURL}/mgmt/user/create`,
+        url: `${descopeApiBaseURL}/auth/otp/verify/email`,
         headers: authHeader,
-        body: testUser,
-    })
-        .then(({ body }) => {
-            const loginId = body["user"]["loginIds"][0];
-            cy.request({
-                method: 'POST',
-                url: `${descopeApiBaseURL}/mgmt/tests/generate/otp`,
-                headers: authHeader,
-                body: {
-                    "loginId": loginId,
-                    "deliveryMethod": "email"
-                }
-            })
-                .then(({ body }) => {
-                    const otpCode = body["code"]
-                    cy.request({
-                        method: 'POST',
-                        url: `${descopeApiBaseURL}/auth/otp/verify/email`,
-                        headers: authHeader,
-                        body: {
-                            "loginId": loginId,
-                            "code": otpCode
-                        }
-                    })
-                        .then(({ body }) => {
-                            const sessionJwt = body["sessionJwt"]
-                            const refreshJwt = body["refreshJwt"]
+        body: {
+          loginId: loginID,
+          code: otpCode
+        }
+      }).then(({ body }) => {
+        const sessionJwt = body['sessionJwt'];
+        const refreshJwt = body['refreshJwt'];
 
-                            /** Default name for the session cookie name / local storage key */
-                            const SESSION_TOKEN_KEY = 'DS';
-                            /** Default name for the refresh local storage key */
-                            const REFRESH_TOKEN_KEY = 'DSR';
+        /** Default name for the session cookie name / local storage key */
+        const SESSION_TOKEN_KEY = 'DS';
+        /** Default name for the refresh local storage key */
+        const REFRESH_TOKEN_KEY = 'DSR';
 
-                            // // Store the JWT in the browser's local storage.
-                            cy.window().then((win) => {
-                                win.localStorage.setItem(SESSION_TOKEN_KEY, sessionJwt);
-                                win.localStorage.setItem(REFRESH_TOKEN_KEY, refreshJwt);
-                            });
+        // Store the JWT in the browser's local storage.
+        cy.window().then((win) => {
+          win.localStorage.setItem(SESSION_TOKEN_KEY, sessionJwt);
+          win.localStorage.setItem(REFRESH_TOKEN_KEY, refreshJwt);
+        });
 
-                            // // Now navigate to the root URL of your application.
-                            cy.visit('/')
+        // Now navigate to the root URL of your application.
+        cy.visit('/dashboard');
+      });
+    });
+  });
+});
 
-                        })
-                })
-        })
-})
-
-// Add the deleteAllTestUsers command
-Cypress.Commands.add('deleteAllTestUsers', () => {
-    cy.request({
-        method: 'DELETE',
-        url: `${descopeApiBaseURL}/mgmt/user/test/delete/all`,
-        headers: authHeader,
-    })
-})
+//   Add the deleteAllTestUsers command
+// Cypress.Commands.add('deleteAllTestUsers', () => {
+//     cy.request({
+//       method: 'DELETE',
+//       url: `${descopeApiBaseURL}/mgmt/user/test/delete/all`,
+//       headers: authHeader,
+//     });
+// });
