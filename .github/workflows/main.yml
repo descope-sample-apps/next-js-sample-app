@@ -1,5 +1,8 @@
 name: Cypress Tests
-on: [push]
+on:
+  push:                        # runs on every push
+  schedule:
+    - cron: '0 3 * * 1'        # runs every Monday at 3AM UTC
 jobs:
   cypress-run:
     name: E2E Tests
