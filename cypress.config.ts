@@ -13,7 +13,7 @@ export default defineConfig({
     },
   },
   env: {
-    descope_project_id: process.env.DESCOPE_PROJECT_ID,
+    descope_project_id: process.env.NEXT_PUBLIC_DESCOPE_PROJECT_ID,
     descope_management_key: process.env.DESCOPE_MANAGEMENT_KEY
   },
 });
