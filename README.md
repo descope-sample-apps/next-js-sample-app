@@ -1,4 +1,6 @@
-# Next Descope Example
+# Next.js + Descope Sample App
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fdescope-sample-apps%2Fnext-js-sample-app&env=NEXT_PUBLIC_DESCOPE_PROJECT_ID)
 
 ## Getting Started
 
