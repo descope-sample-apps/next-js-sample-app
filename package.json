@@ -9,7 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@descope/nextjs-sdk": "^0.12.11",
+    "@descope/nextjs-sdk": "0.15.7",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "dotenv": "^16.4.5",
