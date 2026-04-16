@@ -12,7 +12,7 @@
     "@descope/nextjs-sdk": "0.15.7",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
-    "dotenv": "^16.4.5",
+    "dotenv": "^17.0.0",
     "framer-motion": "^12.6.3",
     "next": "15.4.10",
     "react": "^19.0.0",
