@@ -21,7 +21,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <AuthProvider projectId={process.env.NEXT_PUBLIC_DESCOPE_PROJECT_ID || ''}>
+        <AuthProvider
+          projectId={process.env.NEXT_PUBLIC_DESCOPE_PROJECT_ID || ''}
+          baseUrl={process.env.NEXT_PUBLIC_DESCOPE_BASE_URL}
+        >
           {children}
         </AuthProvider>
       </body>
