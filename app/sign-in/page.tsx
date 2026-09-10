@@ -163,7 +163,11 @@ export default function SignInPage() {
             theme="dark"
             onSuccess={(e) => {
               console.log('Success:', e.detail.user);
-              router.push('/dashboard');
+              // navigating straight from the flow's success event unmounts this
+              // page while the event is still being dispatched, which crashes
+              // React's unmount (removeChild of a detached node) and aborts the
+              // navigation. One tick later the dispatch is done.
+              setTimeout(() => router.push('/dashboard'), 0);
             }}
             onError={(e) => {
               console.error('Error:', e.detail);
