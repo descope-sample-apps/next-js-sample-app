@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { AuthProvider } from '@descope/nextjs-sdk';
+import HeadProbe from './components/HeadProbe';
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -24,7 +25,9 @@ export default function RootLayout({
         <AuthProvider
           projectId={process.env.NEXT_PUBLIC_DESCOPE_PROJECT_ID || ''}
           baseUrl={process.env.NEXT_PUBLIC_DESCOPE_BASE_URL}
+          baseStaticUrl={process.env.NEXT_PUBLIC_DESCOPE_BASE_STATIC_URL}
         >
+          <HeadProbe />
           {children}
         </AuthProvider>
       </body>
