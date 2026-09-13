@@ -1,32 +1,10 @@
+import { deepQueryAll, setValue } from '../support/descope';
+
 // Reproduces the post-sign-in redirect crash with a real password login
 // against the local stack. Collects everything, asserts at the very end.
 
-// descope components nest shadow roots several levels deep, so query through them
-const deepQueryAll = (root: Document | ShadowRoot | Element, sel: string) => {
-  const out: Element[] = [];
-  const walk = (node: Document | ShadowRoot | Element) => {
-    if (node instanceof Element && node.shadowRoot) walk(node.shadowRoot);
-    out.push(...Array.from(node.querySelectorAll(sel)));
-    node.querySelectorAll('*').forEach((el) => {
-      if (el.shadowRoot) walk(el.shadowRoot);
-    });
-  };
-  walk(root);
-  return out;
-};
-
 const label = (el: Element) =>
   (el.shadowRoot?.textContent || el.textContent || '').trim().slice(0, 24);
-
-const setValue = (input: HTMLInputElement, value: string) => {
-  const setter = Object.getOwnPropertyDescriptor(
-    HTMLInputElement.prototype,
-    'value',
-  )?.set;
-  setter?.call(input, value);
-  input.dispatchEvent(new InputEvent('input', { bubbles: true }));
-  input.dispatchEvent(new Event('change', { bubbles: true }));
-};
 
 describe('sign in then redirect', () => {
   it('reaches /dashboard without an uncaught exception', () => {

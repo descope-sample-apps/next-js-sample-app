@@ -1,4 +1,5 @@
 import { createSdk } from '@descope/nextjs-sdk/server';
+import { createHash } from 'crypto';
 import { cookies } from 'next/headers';
 import { NextRequest, NextResponse } from 'next/server';
 
@@ -7,23 +8,30 @@ const sdk = createSdk({
   baseUrl: process.env.NEXT_PUBLIC_DESCOPE_BASE_URL,
 });
 
-// ponytail: dev-only single-process store, so the winner's new refresh token
-// never has to travel to the browser. Resets on every dev server reload.
-let lastRefreshJwt: string | undefined;
-
 // the SDK default, same one authMiddleware falls back to
 const REFRESH_COOKIE = 'DSR';
 
-// jti + iat identify a refresh token without exposing it
+// ponytail: on globalThis, not a module local - in dev each route gets its own
+// module instance, so a module level variable is not shared between them
+const store = globalThis as typeof globalThis & { lastRefreshJwt?: string };
+
+// identifies a token without exposing it: a hash prefix, plus whatever claims
+// the payload actually carries
 const identify = (jwt?: string) => {
   if (!jwt) return null;
+  const fingerprint = createHash('sha256').update(jwt).digest('hex').slice(0, 12);
   try {
     const payload = JSON.parse(
       Buffer.from(jwt.split('.')[1], 'base64url').toString(),
     );
-    return { jti: payload.jti, iat: payload.iat, exp: payload.exp };
+    return {
+      fingerprint,
+      jti: payload.jti,
+      iat: payload.iat,
+      claims: Object.keys(payload).sort().join(','),
+    };
   } catch {
-    return { jti: 'unparsable' };
+    return { fingerprint };
   }
 };
 
@@ -46,7 +54,7 @@ export const refreshRace = async (req: NextRequest, label: string) => {
   const res = await sdk.refresh(refreshJwt);
   const tookMs = Date.now() - startedAt;
 
-  if (res.data?.refreshJwt) lastRefreshJwt = res.data.refreshJwt;
+  if (res.data?.refreshJwt) store.lastRefreshJwt = res.data.refreshJwt;
 
   return NextResponse.json({
     label,
@@ -63,16 +71,16 @@ export const refreshRace = async (req: NextRequest, label: string) => {
 // Refreshes with the newest token any route received, to show whether the whole
 // JWT family survived the race
 export const refreshWithLatest = async () => {
-  if (!lastRefreshJwt) {
+  const sent = store.lastRefreshJwt;
+  if (!sent) {
     return NextResponse.json(
       { error: 'no refreshed token stored yet - run the race first' },
       { status: 409 },
     );
   }
 
-  const sent = lastRefreshJwt;
   const res = await sdk.refresh(sent);
-  if (res.data?.refreshJwt) lastRefreshJwt = res.data.refreshJwt;
+  if (res.data?.refreshJwt) store.lastRefreshJwt = res.data.refreshJwt;
 
   return NextResponse.json({
     label: 'latest',

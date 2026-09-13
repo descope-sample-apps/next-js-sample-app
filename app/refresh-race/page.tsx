@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 
-type TokenId = { jti?: string; iat?: number; exp?: number } | null;
+type TokenId = { fingerprint?: string; jti?: string; iat?: number } | null;
 
 type Result = {
   label?: string;
@@ -38,11 +38,11 @@ export default function RefreshRacePage() {
     }
   };
 
-  const sameJti =
+  const sameToken =
     results?.length === 2 &&
     results.every((r) => r.ok) &&
-    !!results[0].received?.jti &&
-    results[0].received.jti === results[1].received?.jti;
+    !!results[0].received?.fingerprint &&
+    results[0].received.fingerprint === results[1].received?.fingerprint;
 
   return (
     <div className="min-h-screen p-10 font-mono text-sm text-white">
@@ -93,9 +93,9 @@ export default function RefreshRacePage() {
         <>
           <p className="mb-4">
             {results.every((r) => r.ok)
-              ? sameJti
-                ? 'both succeeded, same jti - grace reissued the winner token'
-                : 'both succeeded but with DIFFERENT jti - two live tokens'
+              ? sameToken
+                ? 'both succeeded with the same token - grace reissued the winner'
+                : 'both succeeded with DIFFERENT tokens - two live refresh tokens'
               : 'at least one call failed - see below'}
           </p>
           <div className="grid gap-4 md:grid-cols-2">
