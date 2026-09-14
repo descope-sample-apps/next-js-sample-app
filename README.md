@@ -49,6 +49,47 @@ b. When a user is signed in:
 - Shows Sign In flow (Descope component)
 ![sign-in-page](public/assets/sign-in-page.png)
 
+## Requiring a valid session token
+
+By default `authMiddleware` falls back to the refresh token (`DSR`) when the session
+token (`DS`) is missing or expired, and lets the request through if it is valid.
+The middleware does not refresh the session, so server side code that calls `session()`
+still sees no session - it validates the session token only.
+
+This app opts out of that fallback:
+
+```ts
+// middleware.ts
+export default authMiddleware({
+  publicRoutes: ['/sign-in', '/'],
+  redirectUrl: '/sign-in',
+  projectId: process.env.NEXT_PUBLIC_DESCOPE_PROJECT_ID,
+  skipRefreshTokenValidation: true,
+});
+```
+
+Now every private route is guaranteed a live session token, which is what you want when
+route handlers and server components depend on `session()`.
+
+The flag has a companion requirement. A user whose session token expired now gets
+redirected to the sign-in route even though their refresh token is still valid, and on
+the client the SDK renews the session by itself - so the sign-in page has to send an
+already authenticated user back, otherwise they sit there authenticated:
+
+```tsx
+// app/sign-in/page.tsx
+const { isAuthenticated, isSessionLoading } = useSession();
+
+useEffect(() => {
+  if (isAuthenticated) router.replace('/dashboard');
+}, [isAuthenticated, router]);
+
+if (!mounted || isSessionLoading || isAuthenticated) return null;
+```
+
+This pairs well with refresh token rotation: the client SDK owns refreshing, so two
+server routes never race to rotate the same refresh token.
+
 ## 🧪 Testing
 
 1. Set up Descope environment variables in `.env.local` file

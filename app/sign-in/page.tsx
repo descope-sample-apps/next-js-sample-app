@@ -1,6 +1,7 @@
 'use client';
 
 import { Descope } from '@descope/nextjs-sdk';
+import { useSession } from '@descope/nextjs-sdk/client';
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
@@ -80,12 +81,21 @@ const GradientText = ({ children, className = "" }: { children: React.ReactNode;
 export default function SignInPage() {
   const router = useRouter();
   const [mounted, setMounted] = useState(false);
-  
+  const { isAuthenticated, isSessionLoading } = useSession();
+
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  if (!mounted) return null;
+  // With skipRefreshTokenValidation, a user whose session token expired is sent
+  // here even though their refresh token is still valid. The client SDK renews
+  // the session on its own, so send them back instead of leaving them sitting
+  // on a sign-in page they no longer need.
+  useEffect(() => {
+    if (isAuthenticated) router.replace('/dashboard');
+  }, [isAuthenticated, router]);
+
+  if (!mounted || isSessionLoading || isAuthenticated) return null;
 
   return (
     <div className="min-h-screen w-screen bg-black text-white relative overflow-hidden">
