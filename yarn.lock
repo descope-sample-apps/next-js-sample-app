@@ -2207,13 +2207,13 @@ form-data@~4.0.0:
     es-set-tostringtag "^2.1.0"
     mime-types "^2.1.12"
 
-framer-motion@^12.6.3:
-  version "12.6.3"
-  resolved "https://registry.npmjs.org/framer-motion/-/framer-motion-12.6.3.tgz"
-  integrity sha512-2hsqknz23aloK85bzMc9nSR2/JP+fValQ459ZTVElFQ0xgwR2YqNjYSuDZdFBPOwVCt4Q9jgyTt6hg6sVOALzw==
+framer-motion@^14.0.0:
+  version "14.6.0"
+  resolved "https://registry.yarnpkg.com/framer-motion/-/framer-motion-14.6.0.tgz#3ffd42a8eb04a6b91f2c0e9a5b3184f8d413973b"
+  integrity sha512-MzBgZxGgoHPfSLEXmo4o5XlZvb+nVRFdHtGjVhm6LMIEJKTt/8hNO023euL5mYyzc8llV/hQTfjnN68tNRHalw==
   dependencies:
-    motion-dom "^12.6.3"
-    motion-utils "^12.6.3"
+    motion-dom "14.6.0"
+    motion-utils "14.6.0"
     tslib "^2.4.0"
 
 fs-extra@^9.1.0:
@@ -3029,17 +3029,17 @@ minimist@^1.2.0, minimist@^1.2.6, minimist@^1.2.8:
   resolved "https://registry.npmjs.org/minimist/-/minimist-1.2.8.tgz"
   integrity sha512-2yyAR8qBkN3YuheJanUpWC5U3bb5osDywNB8RzDVlDwDHbocAJveqqj1u8+SVD7jkWT4yvsHCpWqqWqAxb0zCA==
 
-motion-dom@^12.6.3:
-  version "12.6.3"
-  resolved "https://registry.npmjs.org/motion-dom/-/motion-dom-12.6.3.tgz"
-  integrity sha512-gRY08RjcnzgFYLemUZ1lo/e9RkBxR+6d4BRvoeZDSeArG4XQXERSPapKl3LNQRu22Sndjf1h+iavgY0O4NrYqA==
+motion-dom@14.6.0:
+  version "14.6.0"
+  resolved "https://registry.yarnpkg.com/motion-dom/-/motion-dom-14.6.0.tgz#fb868ccefecfae210ba0dc026edcaf6ff8c4ef5b"
+  integrity sha512-lIojTl9aYSPIkeOOSzBliy1nNvpdO3JtVzW2WgTXQlOP4ZMuJhtWO3fP7OD4TVFwlRucdvxlDSMkL+fEQnQ52A==
   dependencies:
-    motion-utils "^12.6.3"
+    motion-utils "14.6.0"
 
-motion-utils@^12.6.3:
-  version "12.6.3"
-  resolved "https://registry.npmjs.org/motion-utils/-/motion-utils-12.6.3.tgz"
-  integrity sha512-R/b3Ia2VxtTNZ4LTEO5pKYau1OUNHOuUfxuP0WFCTDYdHkeTBR9UtxR1cc8mDmKr8PEhmmfnTKGz3rSMjNRoRg==
+motion-utils@14.6.0:
+  version "14.6.0"
+  resolved "https://registry.yarnpkg.com/motion-utils/-/motion-utils-14.6.0.tgz#aacdeb648c336c5d0e697131c80a97a0fb54fbee"
+  integrity sha512-bZJo2AmQ2aOFkaato6VXrTbkPG0XhMzivWUWSaI59pxyllj8QMQUFZ84MYRQnPkK+7dr4KldyJwF2+RM0sdq/w==
 
 ms@^2.1.1, ms@^2.1.3:
   version "2.1.3"
