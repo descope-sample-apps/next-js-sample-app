@@ -24,7 +24,7 @@ jobs:
         run: npm install
 
       - name: Cypress run
-        uses: cypress-io/github-action@v5
+        uses: cypress-io/github-action@c541a95ea92d9239347a2355f2e895cd4b3f8060 # v7.4.6
         with:
           start: npm run dev
           wait-on: 'http://localhost:3000'
